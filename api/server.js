@@ -3,8 +3,14 @@ const net = require('net');
 const { MongoClient } = require('mongodb');
 
 // MongoDB connection URL
-const url = 'mongodb://localhost:27017';
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = 'your_database_name';
+
+// Add debug logging
+if (process.env.DEBUG) {
+  console.debug('Debug mode enabled');
+  console.debug('MongoDB URL:', url);
+}
 
 // Create MongoDB client
 const client = new MongoClient(url);
