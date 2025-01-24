@@ -6,13 +6,15 @@
         "type": "node",
         "request": "launch",
         "name": "Debug API",
-        "skipFiles": [
-          "<node_internals>/**"
-        ],
-        "program": "${workspaceFolder}/server.js",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder}/api/server.js",
         "env": {
-          "NODE_ENV": "development"
-        }
+          "NODE_ENV": "development",
+          "DEBUG": "*",
+          "MONGODB_URI": "mongodb://localhost:27017"
+        },
+        "outFiles": ["${workspaceFolder}/api/**/*.js"],
+        "console": "integratedTerminal"
       }
     ]
   }
