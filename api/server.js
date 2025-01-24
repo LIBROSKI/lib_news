@@ -1,5 +1,4 @@
 const http = require('http');
-const net = require('net');
 const { MongoClient } = require('mongodb');
 
 // MongoDB connection URL
