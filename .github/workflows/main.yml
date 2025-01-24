@@ -1,0 +1,49 @@
+name: Debug API
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./api
+
+      - name: Enable Node.js debugging
+        run: |
+          echo "NODE_OPTIONS=--inspect-brk=9229" >> $GITHUB_ENV
+          echo "DEBUG=*" >> $GITHUB_ENV
+
+      - name: Start API server with debugging
+        run: |
+          node --inspect-brk=9229 server.js &
+          sleep 5
+        working-directory: ./api
+
+      - name: Run tests with debugging
+        run: |
+          curl -v http://localhost:3000
+        env:
+          NODE_ENV: development
+          MONGODB_URI: mongodb://localhost:27017
