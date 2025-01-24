@@ -1,5 +1,5 @@
-fetch('http://localhost:3000/api'{
-    method: 'GET',
+fetch('http://localhost:3000/api/', {
+    method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
